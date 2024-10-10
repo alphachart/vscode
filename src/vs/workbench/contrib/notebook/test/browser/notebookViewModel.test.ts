@@ -45,7 +45,6 @@ suite('NotebookViewModel', () => {
 	let languageService: ILanguageService;
 	let languageDetectionService: ILanguageDetectionService;
 	let notebookExecutionStateService: INotebookExecutionStateService;
-	let configurationService: IConfigurationService;
 
 	suiteSetup(() => {
 		disposables = new DisposableStore();
@@ -58,14 +57,14 @@ suite('NotebookViewModel', () => {
 		languageDetectionService = instantiationService.get(ILanguageDetectionService);
 		notebookExecutionStateService = instantiationService.get(INotebookExecutionStateService);
 
-		configurationService = instantiationService.stub(IConfigurationService, new TestConfigurationService());
+		instantiationService.stub(IConfigurationService, new TestConfigurationService());
 		instantiationService.stub(IThemeService, new TestThemeService());
 	});
 
 	suiteTeardown(() => disposables.dispose());
 
 	test('ctor', function () {
-		const notebook = new NotebookTextModel('notebook', URI.parse('test'), [], {}, { transientCellMetadata: {}, transientDocumentMetadata: {}, transientOutputs: false, cellContentMetadata: {} }, undoRedoService, modelService, languageService, languageDetectionService, configurationService);
+		const notebook = new NotebookTextModel('notebook', URI.parse('test'), [], {}, { transientCellMetadata: {}, transientDocumentMetadata: {}, transientOutputs: false, cellContentMetadata: {} }, undoRedoService, modelService, languageService, languageDetectionService);
 		const model = new NotebookEditorTestModel(notebook);
 		const options = new NotebookOptions(mainWindow, instantiationService.get(IConfigurationService), instantiationService.get(INotebookExecutionStateService), instantiationService.get(ICodeEditorService), false);
 		const eventDispatcher = new NotebookEventDispatcher();
